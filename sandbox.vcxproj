@@ -147,6 +147,10 @@
   <ItemGroup>
     <ClInclude Include="CustomString.hpp" />
     <ClInclude Include="D:\documents\libraries\library.h" />
+    <ClInclude Include="MyLinkedList.h" />
+    <ClInclude Include="mymath.hpp" />
+    <ClInclude Include="MyThreading.h" />
+    <ClInclude Include="WindowsSpecificExtentions.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

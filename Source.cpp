@@ -1,26 +1,39 @@
-#include "CustomString.hpp"
+﻿#include "CustomString.hpp"
+#include "library.h"
+#include "WindowsSpecificExtentions.hpp"
 #include <iostream>
+#include "MyLinkedList.h"
+#include "MyThreading.h"
 
-using namespace std;
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
+using namespace extstd;
+using namespace CustomThreading;
+
+void TestFunc(const int& arg) {
+	for (int i = arg; i < 1000; i++) WriteLine(i);
+	return;
+}
+
+void Test(int a) {
+	return;
+}
+
+
 
 int main() {
 	
 	try {
-		//extstd::experimental::massInt a;
-		//a.SetVal(950);
+		int a;
 
-		//cout << a.toString();
-		using namespace extstd;
+		a = Read<int>();
 
-		String str1 = "Hello";
-		String str2;
-		
-		str2 = "world!";
-		cout << str1 + str2.toUpper();
-
-
-		system("PAUSE");
-	} catch (std::exception exc) {
-		cout << exc.what();
+		Write("{0}", a);
+	} catch (baby exc) {
+		Write(exc.what());
 	}
 }

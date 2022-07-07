@@ -72,11 +72,20 @@ namespace extstd {
 			this->append(a);
 			return *this;
 		}
-		/*Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> operator=(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> a) {
-			this->clear();
-			this->append(a);
-			return *this;
-		}*/
+		
+		inline Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> ToLower() {
+			Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> temp;
+			for (const char& c : *this) {
+				temp.push_back(std::tolower(c));
+			}
+		}
+
+		inline Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> ToUpper() {
+			Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> temp;
+			for (const char& c : *this) {
+				temp.push_back(std::toupper(c));
+			}
+		}
 
 		
 	};

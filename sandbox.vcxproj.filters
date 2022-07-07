@@ -26,5 +26,17 @@
     <ClInclude Include="CustomString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mymath.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsSpecificExtentions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyLinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyThreading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
