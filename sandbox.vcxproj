@@ -142,9 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="CustomString.hpp" />
     <ClInclude Include="D:\documents\libraries\library.h" />
     <ClInclude Include="MyLinkedList.h" />
