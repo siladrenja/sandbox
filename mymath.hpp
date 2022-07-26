@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <stdexcept>
 
+#ifndef MATRIXPARALTRESHOLD
+#define MATRIXPARALTRESHOLD 9
+#endif
+
 namespace custom {
 	inline double nthRoot(int A, int N) {
 		return pow(N, 1.0 / A);
@@ -222,3 +226,95 @@ namespace mathPars {
 
 
 }
+
+namespace math {
+	template<typename T, size_t _1_SizeX, size_t _1_SizeY>
+	class Matrix {
+	public:
+		Matrix() {
+			_1_Val = new T[_1_SizeX * _1_SizeY];
+		}
+
+		Matrix(const T (**_3_in)) {
+			_1_Val = new T[_1_SizeX * _1_SizeY];
+			for (size_t _2_y = 0; _2_y < _1_SizeY; _2_y++) {
+				for (size_t _2_x = 0; _2_x < _1_SizeX; _2_x++) {
+					_1_Val[_2_y * _1_SizeX + _2_x] = _3_in[_2_x][_2_y];
+				}
+			}
+		}
+
+		Matrix(const T (_3_in[_1_SizeX][_1_SizeY])) {
+			_1_Val = new T[_1_SizeX * _1_SizeY];
+			for (size_t _2_y = 0; _2_y < _1_SizeY; _2_y++) {
+				for (size_t _2_x = 0; _2_x < _1_SizeX; _2_x++) {
+					_1_Val[_2_y * _1_SizeX + _2_x] = _3_in[_2_x][_2_y];
+				}
+			}
+		}
+
+		Matrix(const Matrix<T, _1_SizeX, _1_SizeY> &_3_in) {
+			_1_Val = new T[_1_SizeX * _1_SizeY];
+			for (unsigned long long _2_x = 0; _2_x < _1_SizeY * _1_SizeX; _2_x++) {
+				*(_1_Val + _2_x) = *(_3_in._1_Val + _2_x);
+			}
+		}
+
+		T* operator[] (size_t _2_index) {
+			return _1_Val + (_2_index * _1_SizeX);
+		}
+
+		Matrix<T, _1_SizeX,_1_SizeY>& operator*= (T _2_scalar) {
+			for (unsigned long long _2_i = 0; _2_i < _1_SizeX * _1_SizeY; _2_i++) {
+				*(_1_Val + _2_i) *= _2_scalar;
+			}
+			return *this;
+		}
+
+		Matrix<T, _1_SizeX, _1_SizeY>  operator+(Matrix<T, _1_SizeX, _1_SizeY>& _2_second) {
+			Matrix<T, _1_SizeX, _1_SizeY> temp;
+
+			for (size_t _2_x = 0; _2_x < _1_SizeX; _2_x++) {
+				for (size_t _2_y = 0; _2_y < _1_SizeY; _2_y++)
+					temp[_2_x][_2_y] = (*this)[_2_x][_2_y] + _2_second[_2_x][_2_y];
+			}
+
+			return temp;
+
+		}
+
+
+		~Matrix() {
+			delete _1_Val;
+		}
+
+		size_t Rows() { return _1_SizeY; }
+
+		size_t Columns() { return _1_SizeX; }
+		
+	private:
+		T *_1_Val;
+	};
+
+	template<typename T, size_t _1_SizeX, size_t _1_SizeY>
+	Matrix<T, _1_SizeX, _1_SizeY> operator* (T _2_ind, Matrix<T, _1_SizeX, _1_SizeY> matr) {
+		Matrix<T, _1_SizeX, _1_SizeY> temp;
+		for (size_t _2_x = 0; _2_x < _1_SizeX; _2_x++) {
+			for(size_t _2_y = 0; _2_y < _1_SizeY; _2_y++)
+			temp[_2_x][_2_y] = (_2_ind * matr[_2_x][_2_y]);
+		}
+		return temp;
+	}
+
+	template<typename T, size_t _1_SizeX, size_t _1_SizeY>
+	Matrix<T, _1_SizeX, _1_SizeY> operator* (Matrix<T, _1_SizeX, _1_SizeY> matr, T _2_ind) {
+		Matrix<T, _1_SizeX, _1_SizeY> temp;
+		for (size_t _2_x = 0; _2_x < _1_SizeX; _2_x++) {
+			for (size_t _2_y = 0; _2_y < _1_SizeY; _2_y++)
+				temp[_2_x][_2_y] = (_2_ind * matr[_2_x][_2_y]);
+		}
+		return temp;
+	}
+
+}
+
