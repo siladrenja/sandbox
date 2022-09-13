@@ -13,29 +13,50 @@ namespace extstd {
 
 		using std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>>::basic_string;
 
-		inline bool StartsWith(Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr) {
+		inline bool StartsWith(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr) {
+#if _HAS_CXX20
+			return this->starts_with(subStr);
+
+#else
 			if (this->rfind(subStr, 0) == 0) {
 				return true;
 			}
 			return false;
+#endif
 		}
-		inline bool StartsWith(Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr[]) {
+		inline bool StartsWith(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr[]) {
+#if _HAS_CXX20
+			return this->starts_with(subStr);
+
+#else
 			if (this->rfind(subStr, 0) == 0) {
 				return true;
 			}
 			return false;
+#endif
+			
 		}
-		inline bool EndsWith(Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr) {
+		inline bool EndsWith(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr) {
+#if _HAS_CXX20
+			return this->ends_with(subStr);
+#else
 			if (this->length() >= subStr.length()) {
 				return (this->compare(this->length() - subStr.length(), subStr.length(), subStr) == 0);
 			} else {
 				return false;
 			}
+#endif
 		}
-		inline void prepend(Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> PrepString) {
+
+		inline void prepend(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> PrepString) {
 			this->insert(0, PrepString);
+			std::string st;
+			
 		}
-		inline Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> toLower() {
+
+		using push_front = this->prepend;
+
+		inline std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> toLower() {
 			Basic_String<_Elem, char_traits<_Elem>, allocator<_Elem>> __copy(*this);
 			std::transform(
 				(__copy.begin()),
@@ -45,7 +66,7 @@ namespace extstd {
 			);
 			return __copy;
 		}
-		inline Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> toUpper() {
+		inline std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> toUpper() {
 			Basic_String<_Elem, char_traits<_Elem>, allocator<_Elem>> __copy(*this);
 			std::transform(
 				(__copy.begin()),
@@ -55,11 +76,11 @@ namespace extstd {
 			);
 			return __copy;
 		}
-		inline std::string toGenericString(bool DeleteCharacters) {
+		inline std::string toGenericString(char ReplaceWith = 0) {
 			std::string out;
 			for (int i = 0; i < this->length(); i++) {
 				if (static_cast<unsigned char>((*this)[i]) > 127) {
-					if (!DeleteCharacters) out.push_back('?');
+					if (ReplaceWith) out.push_back(ReplaceWith);
 				} else {
 					out.push_back((*this)[i]);
 				}
@@ -67,25 +88,13 @@ namespace extstd {
 
 			return out;
 		}
-		Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> operator=(Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> a) {
+		
+		Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> operator=(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> a) {
 			this->clear();
 			this->append(a);
 			return *this;
 		}
 		
-		inline Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> ToLower() {
-			Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> temp;
-			for (const char& c : *this) {
-				temp.push_back(std::tolower(c));
-			}
-		}
-
-		inline Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> ToUpper() {
-			Basic_String<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> temp;
-			for (const char& c : *this) {
-				temp.push_back(std::toupper(c));
-			}
-		}
 
 		
 	};

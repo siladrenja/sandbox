@@ -1,6 +1,9 @@
 #pragma once
+
 #include <Windows.h>
 #include <string>
+#include <vector>
+#include <unordered_map>
 
 #include <iostream>
 namespace WinControls {
@@ -123,4 +126,259 @@ namespace WinControls {
     }
 
   
+}
+
+
+namespace Win {
+
+
+    struct WindowCallbackStruct {
+        unsigned int message;
+        WPARAM wParam;
+        LPARAM lParam;
+    };
+    typedef LRESULT CALLBACK WindowEvent;
+
+    
+
+    inline void ErrorMessage(const wchar_t* message) {
+        MessageBox(NULL, message, L"Error!",
+            MB_ICONEXCLAMATION | MB_OK);
+    }
+
+    class WindowException {
+    public:
+        WindowException(const wchar_t* message) {
+            _1_message = std::wstring(message);
+            
+        }
+
+        void DisplayErrorPrompt(const wchar_t* msg = 0) {
+            if (msg == 0) {
+                ErrorMessage(_1_message.c_str());
+                return;
+            }
+
+            ErrorMessage(msg);
+            return;
+        }
+
+        const wchar_t* what() {
+            return _1_message.c_str();
+        }
+
+    private:
+        std::wstring _1_message;
+    };
+
+    
+    inline int MessageLoop() {
+        MSG Msg;
+        while (GetMessage(&Msg, NULL, 0, 0) > 0) {
+            TranslateMessage(&Msg);
+            DispatchMessage(&Msg);
+        }
+        return Msg.wParam;
+    }
+
+
+
+        LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+        class Window;
+        std::vector<Window*> WindowList = {};
+
+    class Window {
+    public:
+        Window(const wchar_t* name = L"Basic Window", int startingX = CW_USEDEFAULT, int startingY = CW_USEDEFAULT, int startingWidth = 800, int startingHeight = 800, HINSTANCE hInstance = GetModuleHandle(0)) {
+            WindowList.push_back(this);
+            wc.cbSize = sizeof(WNDCLASSEX);
+            wc.style = CS_DBLCLKS;
+            wc.lpfnWndProc = WndProc;
+            wc.cbClsExtra = 0;
+            wc.cbWndExtra = 0;
+            wc.hInstance = hInstance;
+            wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+            wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+            wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+            wc.lpszMenuName = NULL;
+            wc.lpszClassName = name;
+            wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+
+            if (!RegisterClassEx(&wc)) {
+                throw(WindowException(L"Window Registration Failed!"));
+            }
+
+            hwnd = CreateWindowEx(
+                WS_EX_CLIENTEDGE,
+                name,
+                name,
+                WS_OVERLAPPEDWINDOW,
+                startingX, startingY, startingWidth, startingHeight,
+                NULL, NULL, hInstance, NULL);
+
+            if (hwnd == NULL) {
+                throw(WindowException(L"Window Creation Failed!"));
+
+            }
+        }
+
+        bool Show(int nCmdShow = 1){ return ShowWindow(hwnd, nCmdShow); }
+        bool Update(){ return UpdateWindow(hwnd); }
+
+        inline const HWND& GetHWND() {
+            return hwnd;
+        }
+
+        friend LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+#pragma region AddingCallbacks
+        //adds for any window message you give it
+        inline void AddGenericCallback(const UINT& MessageToHandle, WindowEvent(*foo)(const WPARAM&, const LPARAM&)) {
+            if (CallbackList.find(MessageToHandle) == CallbackList.end()) {
+                CallbackList.insert(std::make_pair(MessageToHandle, std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>(1,foo)));
+            } else {
+                CallbackList.at(MessageToHandle).push_back(foo);
+            }
+
+        }//std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>(foo);
+
+        //set premade unordered map that already has all the callbacks preset
+        inline void SetCallbacks(const std::unordered_map<UINT, std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>>& umap) {
+            CallbackList = umap;
+        }
+
+        //Called when user wants to close the window
+        inline void AddCloseCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_CLOSE, foo);
+        }
+
+        //Called when window is ready to paint
+        inline void AddPaintCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_PAINT, foo);
+        }
+
+        //Called when keyboard button is a char and pressed
+        inline void AddKeyboardCharacterCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_CHAR, foo);
+        }
+
+        //Called when keyboard button is a char and depressed(it's ok keyboard character, it'll be better)
+        inline void AddKeyboardCharacterUpCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_DEADCHAR, foo);
+        }
+
+        //called when any key is down
+        inline void AddKeyboardButtonDownCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_KEYDOWN, foo);
+        }
+
+
+        //called when any key is up
+        inline void AddKeyboardButtonUpCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_KEYUP, foo);
+        }
+
+        //called when left mouse button is down
+        inline void AddLeftMouseDown(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_LBUTTONDOWN, foo);
+        }
+        //called when left mouse button is up
+        inline void AddLeftMouseUp(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_LBUTTONUP, foo);
+        }
+
+        //called when right mouse button is down
+        inline void AddRightMouseDown(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_RBUTTONDOWN, foo);
+        }
+
+        //called when right mouse button is up
+        inline void AddRightMouseUp(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_RBUTTONUP, foo);
+        }
+
+        inline void AddMiddleMouseDown(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_MBUTTONDOWN, foo);
+        }
+
+        inline void AddMiddleMouseUp(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_MBUTTONUP, foo);
+        }
+
+        inline void AddLeftDoubleClick(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_LBUTTONDBLCLK, foo);
+
+        }
+
+        inline void AddRightDoubleClick(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_RBUTTONDBLCLK, foo);
+
+        }
+
+        inline void AddMiddleDoubleClick(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+            AddGenericCallback(WM_MBUTTONDBLCLK, foo);
+
+        }
+        
+#pragma endregion
+        HWND hwnd;
+
+    private:
+#pragma region PrivateMembers
+        WNDCLASSEX wc;
+
+        std::unordered_map<UINT, std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>> CallbackList;
+
+
+        WindowEvent Procedure(const UINT& msg, const WPARAM& wParam, const LPARAM& lParam) {
+            if (CallbackList.find(msg) != CallbackList.end()){
+                std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)> temp = CallbackList[msg];
+                for (auto temp2 : temp) {
+                    (*temp2)(wParam, lParam);
+                }
+
+            }else {
+                switch (msg) {
+                case WM_CLOSE:
+                    DestroyWindow(hwnd);
+                    break;
+                case WM_DESTROY:
+                    PostQuitMessage(0);
+                    break;
+                default:
+                    return DefWindowProc(hwnd, msg, wParam, lParam);
+                }
+                return 0;
+            }
+        }
+
+#pragma endregion
+    };
+
+
+        
+
+        LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+
+            for (auto& w : WindowList) {
+                if (hwnd == w->hwnd) {
+                    return w->Procedure(msg, wParam, lParam);
+                }
+            }
+
+            switch (msg) {
+            case WM_CLOSE:
+                DestroyWindow(hwnd);
+                break;
+            case WM_DESTROY:
+                PostQuitMessage(0);
+                break;
+            default:
+                return DefWindowProc(hwnd, msg, wParam, lParam);
+            }
+            return 0;
+        }
+
+    
 }

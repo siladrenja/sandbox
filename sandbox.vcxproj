@@ -70,16 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\documents\libraries;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\documents\libraries;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\documents\libraries;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\documents\libraries;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,8 +87,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -100,8 +102,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,8 +119,10 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,8 +138,10 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;C:\Users\Matej\source\repos\sandbox</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Precise</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,8 +152,10 @@
   <ItemGroup>
     <ClInclude Include="CustomString.hpp" />
     <ClInclude Include="D:\documents\libraries\library.h" />
+    <ClInclude Include="MyIntrinsics.h" />
     <ClInclude Include="MyLinkedList.h" />
     <ClInclude Include="mymath.hpp" />
+    <ClInclude Include="myOpenGL.h" />
     <ClInclude Include="MyThreading.h" />
     <ClInclude Include="WindowsSpecificExtentions.hpp" />
   </ItemGroup>

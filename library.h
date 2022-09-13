@@ -15,10 +15,11 @@
 #include <thread>
 #include <regex>
 #include <cstdio>
+#include <stdint.h>
 
 #include <iostream>
 
-
+#define maxi64 0xEFFFFFFF
 
 #pragma warning(disable:4146)
 
@@ -33,6 +34,10 @@
 
 
 
+typedef i8 = int8_t;
+typedef i16 = int16_t;
+typedef i32 = int32_t;
+typedef i64 = int64_t;
 
 
 
@@ -67,6 +72,104 @@ namespace custom {
 
 namespace extstd {
 
+	template<typename T>
+	class Range {
+	public:
+
+		struct Iterator {
+			using iterator_category = std::forward_iterator_tag;
+			using difference_type = std::ptrdiff_t;
+			using value_type = T;
+			using pointer = T*;  // or also value_type*
+			using reference = T&;
+			
+			Iterator(value_type val, long long __Step) : m_ptr(val) { Step = __Step; }
+
+			reference operator*() { return m_ptr; }
+			pointer operator->() { return m_ptr; }
+
+			// Prefix increment
+			Iterator& operator++() {
+				m_ptr+=Step; return *this; 
+			}
+
+			// Postfix increment
+			Iterator operator++(int) { Iterator tmp = *this; m_ptr+=Step; return tmp;  }
+
+			friend bool operator== (const Iterator& a, const Iterator& b) { return a.m_ptr == b.m_ptr; };
+			friend bool operator!= (const Iterator& a, const Iterator& b) { return a.m_ptr != b.m_ptr; };
+
+		private:
+
+			value_type m_ptr;
+			long long Step;
+		};
+
+		Iterator begin() { if (Step > 0) return Iterator(low, Step); else return Iterator(high, Step); }
+		Iterator end() { if (Step > 0) return Iterator(high, Step); else return Iterator(low, Step); }
+
+		Range(T from, T to) {
+			if (from < to) {
+				low = from;
+				high = to;
+			} else {
+				low = to;
+				high = from;
+			}
+		}
+
+		Range(T from, long long _step, T to) {
+			Step = _step;
+
+			if (from < to) {
+				low = from;
+				high = to;
+				
+			} else {
+				low = to;
+				high = from;
+			}
+		}
+		~Range() {};
+
+		inline bool isInRange(T num) {
+			return(num >= low && num < high);
+		}
+	protected:
+		T low, high;
+		long long Step = 1;
+
+	};
+
+	template<typename T>
+	bool operator==(T arg1, Range<T> arg2) {
+		return arg2.isInRange(arg1);
+	}
+	template<typename T>
+
+	bool operator==(Range<T> arg1, T arg2) {
+		return arg1.isInRange(arg2);
+	}
+
+	template<typename T>
+	class Uncertainty : public Range<T> {
+	public:
+		Uncertainty(T value, T _uncertainty) : Range<T>(value - _uncertainty, value + _uncertainty+1) {};
+		
+	};
+
+	template<typename T>
+	using Tolerance = Uncertainty<T>;
+
+	template<typename T>
+	bool operator==(T arg1, Uncertainty<T> arg2) {
+		return arg2.isInRange(arg1);
+	}
+	template<typename T>
+
+	bool operator==(Uncertainty<T> arg1, T arg2) {
+		return arg1.isInRange(arg2);
+	}
 
 	template<typename T = std::string>
 	T Read() {
@@ -75,7 +178,7 @@ namespace extstd {
 		return a;
 	}
 
-	template<typename ...arg>
+	template<typename ...arg >
 	void Read(const char* eq, arg&... args ) {
 		
 		scanf_s(eq, &args...);
@@ -95,35 +198,54 @@ namespace extstd {
 		
 		std::cout << toWrite;
 	}
-
 	template<typename T>
-	void FormatString(std::string& Eq, const size_t countFrom, T ar) {
-		custom::ReplaceAllOccurances(Eq,(std::string("{") + std::to_string(countFrom) + "}"), std::to_string(ar));
+	void WriteLine(const T& toWrite) {
 
+		std::cout << toWrite << '\n';
 	}
 
-	template<typename T, typename... args>
-	void FormatString(std::string& Eq,  const size_t countFrom, T ar, args... a) {
-		custom::ReplaceAllOccurances(Eq, (std::string("{") + std::to_string(countFrom) + "}"), std::to_string(ar));
-	
-		for (unsigned long long i = countFrom + 1; i < Eq.size(); i++) {
-	
-			if ((Eq.find(std::string("{") + std::to_string(i) + "}") != std::string::npos)) {
-				FormatString(Eq, i, a...);
-				break;
+
+	void Write(const std::string& toWrite) {
+
+		std::cout << toWrite;
+	}
+
+	void WriteLine(const std::string& toWrite) {
+
+		std::cout << toWrite << '\n';
+	}
+
+	namespace {
+		template<typename T>
+		void _1_FormatString(std::string& Eq, const size_t countFrom, T ar) {
+			custom::ReplaceAllOccurances(Eq, (std::string("{") + std::to_string(countFrom) + "}"), std::to_string(ar));
+
+		}
+
+		template<typename T, typename... args>
+		void _1_FormatString(std::string& Eq, const size_t countFrom, T ar, args... a) {
+			custom::ReplaceAllOccurances(Eq, (std::string("{") + std::to_string(countFrom) + "}"), std::to_string(ar));
+
+			for (unsigned long long i = countFrom + 1; i < Eq.size(); i++) {
+
+				if ((Eq.find(std::string("{") + std::to_string(i) + "}") != std::string::npos)) {
+					_1_FormatString(Eq, i, a...);
+					break;
+				}
 			}
 		}
 	}
-	
+	template<typename... args>
+	std::string FormatString(std::string _1_str, args...a) {
+		_1_FormatString(_1_str, 0, a...);
+		return _1_str;
+	}
+
 	template<typename... args>
 	void Write(std::string Eq, args... a) {
-		for (unsigned long long i = 0; i < Eq.size(); i++) {
-			
-			if ((Eq.find(std::string("{") + std::to_string(i) + "}") != std::string::npos)) {
-				FormatString(Eq, 0, a..., i);
-				break;
-			}
-		}
+
+		_1_FormatString(Eq, 0, a...);
+
 	
 		std::cout << Eq;
 		return;
@@ -134,10 +256,53 @@ namespace extstd {
 		return;
 	}
 
+	
+
 	template<typename T>
-	void WriteLine(const T& toWrite) {
+	void Write(const std::vector<T>& toWrite, const char* delim) {
+		std::cout << std::pair{ toWrite, delim };
+	}
+	template<typename T>
+	void WriteLine(const std::vector<T>& toWrite, const char* delim) {
+		std::cout << std::pair{ toWrite, delim } << '\n';
 		
-		std::cout << toWrite << '\n';
+	}
+
+	template<typename T>
+	void Write(const std::vector<T>& toWrite, const std::string& delim) {
+		std::cout << std::pair{ toWrite, delim.c_str() };
+	}
+	template<typename T>
+	void WriteLine(const std::vector<T>& toWrite, const std::string& delim) {
+		std::cout << std::pair{ toWrite, delim.c_str() } << '\n';
+
 	}
 }
 
+
+
+template <typename T>
+std::ostream& operator<< (std::ostream& _1_stream, const std::vector<T>& _1_in) {
+
+	for (T _2_elem : _1_in) {
+		_1_stream << _2_elem;
+	}
+
+	return _1_stream;
+}
+
+
+
+
+template <typename _1_T>
+std::ostream& operator<< (std::ostream& _1_stream, std::pair<std::vector<_1_T>, const char*> _1_stru) {
+	_1_stream << _1_stru.first[0];
+	_1_stru.first.erase(_1_stru.first.begin());
+
+	
+	for (_1_T& _2_elem : _1_stru.first) {
+		_1_stream << _1_stru.second << _2_elem ;
+	}
+
+	return _1_stream;
+}
