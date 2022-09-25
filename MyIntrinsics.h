@@ -295,7 +295,7 @@ mi256_i64 operator- (const mi256_i64& a, const mi256_i64& b) {
 	return _mm256_sub_epi64(a, b);
 }
 mi256_i64 operator* (const mi256_i64& a, const mi256_i64& b) {
-	return _mm256_mul_epi32(a, b);
+	return _mm256_mullo_epi64(a, b);
 }
 mi256_i64 operator/ (const mi256_i64& a, const mi256_i64& b) {
 	return _mm256_div_epi64(a, b);
@@ -303,6 +303,433 @@ mi256_i64 operator/ (const mi256_i64& a, const mi256_i64& b) {
 
 #pragma endregion
 
+#pragma region mi128_64 operators
+mi128_i64 operator+ (const mi128_i64& a, const mi128_i64& b) {
+
+	return _mm_add_epi64(a, b);
+}
+mi128_i64 operator- (const mi128_i64& a, const mi128_i64& b) {
+	return _mm_sub_epi64(a, b);
+}
+mi128_i64 operator* (const mi128_i64& a, const mi128_i64& b) {
+	return _mm_mullo_epi64(a, b);
+}
+mi128_i64 operator/ (const mi128_i64& a, const mi128_i64& b) {
+	return _mm_div_epi64(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi512_64 operators
+mi512_i64 operator+ (const mi512_i64& a, const mi512_i64& b) {
+
+	return _mm512_add_epi64(a, b);
+}
+mi512_i64 operator- (const mi512_i64& a, const mi512_i64& b) {
+	return _mm512_sub_epi64(a, b);
+}
+mi512_i64 operator* (const mi512_i64& a, const mi512_i64& b) {
+	return _mm512_mullo_epi64(a, b);
+}
+mi512_i64 operator/ (const mi512_i64& a, const mi512_i64& b) {
+	return _mm512_div_epi64(a, b);
+}
+
+#pragma endregion
+
+
+#pragma region mi256_32 operators
+mi256_i32 operator+ (const mi256_i32& a, const mi256_i32& b) {
+
+	return _mm256_add_epi32(a, b);
+}
+mi256_i32 operator- (const mi256_i32& a, const mi256_i32& b) {
+	return _mm256_sub_epi32(a, b);
+}
+mi256_i32 operator* (const mi256_i32& a, const mi256_i32& b) {
+	return _mm256_mullo_epi32(a, b);
+}
+mi256_i32 operator/ (const mi256_i32& a, const mi256_i32& b) {
+	return _mm256_div_epi32(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi128_32 operators
+mi128_i32 operator+ (const mi128_i32& a, const mi128_i32& b) {
+
+	return _mm_add_epi32(a, b);
+}
+mi128_i32 operator- (const mi128_i32& a, const mi128_i32& b) {
+	return _mm_sub_epi32(a, b);
+}
+mi128_i32 operator* (const mi128_i32& a, const mi128_i32& b) {
+	return _mm_mullo_epi32(a, b);
+}
+mi128_i32 operator/ (const mi128_i32& a, const mi128_i32& b) {
+	return _mm_div_epi32(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi512_32 operators
+mi512_i32 operator+ (const mi512_i32& a, const mi512_i32& b) {
+
+	return _mm512_add_epi32(a, b);
+}
+mi512_i32 operator- (const mi512_i32& a, const mi512_i32& b) {
+	return _mm512_sub_epi32(a, b);
+}
+mi512_i32 operator* (const mi512_i32& a, const mi512_i32& b) {
+	return _mm512_mullo_epi32(a, b);
+}
+mi512_i32 operator/ (const mi512_i32& a, const mi512_i32& b) {
+	return _mm512_div_epi32(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi256_16 operators
+mi256_i16 operator+ (const mi256_i16& a, const mi256_i16& b) {
+
+	return _mm256_add_epi16(a, b);
+}
+mi256_i16 operator- (const mi256_i16& a, const mi256_i16& b) {
+	return _mm256_sub_epi16(a, b);
+}
+mi256_i16 operator* (const mi256_i16& a, const mi256_i16& b) {
+	return _mm256_mullo_epi16(a, b);
+}
+mi256_i16 operator/ (const mi256_i16& a, const mi256_i16& b) {
+	return _mm256_div_epi16(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi128_16 operators
+mi128_i16 operator+ (const mi128_i16& a, const mi128_i16& b) {
+
+	return _mm_add_epi16(a, b);
+}
+mi128_i16 operator- (const mi128_i16& a, const mi128_i16& b) {
+	return _mm_sub_epi16(a, b);
+}
+mi128_i16 operator* (const mi128_i16& a, const mi128_i16& b) {
+	return _mm_mullo_epi16(a, b);
+}
+mi128_i16 operator/ (const mi128_i16& a, const mi128_i16& b) {
+	return _mm_div_epi16(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi512_16 operators
+mi512_i16 operator+ (const mi512_i16& a, const mi512_i16& b) {
+
+	return _mm512_add_epi16(a, b);
+}
+mi512_i16 operator- (const mi512_i16& a, const mi512_i16& b) {
+	return _mm512_sub_epi16(a, b);
+}
+mi512_i16 operator* (const mi512_i16& a, const mi512_i16& b) {
+	return _mm512_mullo_epi16(a, b);
+}
+mi512_i16 operator/ (const mi512_i16& a, const mi512_i16& b) {
+	return _mm512_div_epi16(a, b);
+}
+
+#pragma endregion
+
+
+
+
+#pragma region mi256_64u operators
+
+mi256_i64u operator/ (const mi256_i64u& a, const mi256_i64u& b) {
+	return _mm256_div_epu64(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi128_64u operators
+
+mi128_i64u operator/ (const mi128_i64u& a, const mi128_i64u& b) {
+	return _mm_div_epu64(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi512_64u operators
+
+mi512_i64u operator/ (const mi512_i64u& a, const mi512_i64u& b) {
+	return _mm512_div_epu64(a, b);
+}
+
+#pragma endregion
+
+
+#pragma region mi256_32u operators
+
+mi256_i32u operator/ (const mi256_i32u& a, const mi256_i32u& b) {
+	return _mm256_div_epu32(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi128_32u operators
+
+mi128_i32u operator/ (const mi128_i32u& a, const mi128_i32u& b) {
+	return _mm_div_epu32(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi512_32u operators
+
+mi512_i32u operator/ (const mi512_i32u& a, const mi512_i32u& b) {
+	return _mm512_div_epu32(a, b);
+}
+
+#pragma endregion
+
+
+#pragma region mi256_16u operators
+mi256_i16u operator+ (const mi256_i16u& a, const mi256_i16u& b) {
+
+	return _mm256_adds_epu16(a, b);
+}
+mi256_i16u operator- (const mi256_i16u& a, const mi256_i16u& b) {
+	return _mm256_subs_epu16(a, b);
+}
+
+mi256_i16u operator/ (const mi256_i16u& a, const mi256_i16u& b) {
+	return _mm256_div_epu16(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi128_16u operators
+mi128_i16u operator+ (const mi128_i16u& a, const mi128_i16u& b) {
+
+	return _mm_adds_epu16(a, b);
+}
+mi128_i16u operator- (const mi128_i16u& a, const mi128_i16u& b) {
+	return _mm_subs_epu16(a, b);
+}
+
+mi128_i16u operator/ (const mi128_i16u& a, const mi128_i16u& b) {
+	return _mm_div_epu16(a, b);
+}
+
+#pragma endregion
+
+#pragma region mi512_16u operators
+mi512_i16u operator+ (const mi512_i16u& a, const mi512_i16u& b) {
+
+	return _mm512_adds_epu16(a, b);
+}
+mi512_i16u operator- (const mi512_i16u& a, const mi512_i16u& b) {
+	return _mm512_subs_epu16(a, b);
+}
+
+mi512_i16u operator/ (const mi512_i16u& a, const mi512_i16u& b) {
+	return _mm512_div_epu16(a, b);
+}
+
+#pragma endregion
+
+#pragma region fmadd
+inline __m256 fmadd(__m256 op1, __m256 op2, __m256 op3) {
+	return _mm256_fmadd_ps(op1, op2, op3);
+}
+
+inline __m256d fmadd(__m256d op1, __m256d op2, __m256d op3) {
+	return _mm256_fmadd_pd(op1, op2, op3);
+}
+
+inline __m128 fmadd(__m128 op1, __m128 op2, __m128 op3) {
+	return _mm_fmadd_ps(op1, op2, op3);
+}
+
+inline __m128d fmadd(__m128d op1, __m128d op2, __m128d op3) {
+	return _mm_fmadd_pd(op1, op2, op3);
+}
+
+inline __m512 fmadd(__m512 op1, __m512 op2, __m512 op3) {
+	return _mm512_fmadd_ps(op1, op2, op3);
+}
+
+inline __m512d fmadd(__m512d op1, __m512d op2, __m512d op3) {
+	return _mm512_fmadd_pd(op1, op2, op3);
+}
+#pragma endregion
+
+#pragma region fmsub
+inline __m256 fmsub(__m256 op1, __m256 op2, __m256 op3) {
+	return _mm256_fmsub_ps(op1, op2, op3);
+}
+
+inline __m256d fmsub(__m256d op1, __m256d op2, __m256d op3) {
+	return _mm256_fmsub_pd(op1, op2, op3);
+}
+
+inline __m128 fmsub(__m128 op1, __m128 op2, __m128 op3) {
+	return _mm_fmsub_ps(op1, op2, op3);
+}
+
+inline __m128d fmsub(__m128d op1, __m128d op2, __m128d op3) {
+	return _mm_fmsub_pd(op1, op2, op3);
+}
+
+inline __m512 fmsub(__m512 op1, __m512 op2, __m512 op3) {
+	return _mm512_fmsub_ps(op1, op2, op3);
+}
+
+inline __m512d fmsub(__m512d op1, __m512d op2, __m512d op3) {
+	return _mm512_fmsub_pd(op1, op2, op3);
+}
+#pragma endregion
+
+#pragma region fmaddsub
+inline __m256 fmaddsub(__m256 op1, __m256 op2, __m256 op3) {
+	return _mm256_fmaddsub_ps(op1, op2, op3);
+}
+
+inline __m256d fmaddsub(__m256d op1, __m256d op2, __m256d op3) {
+	return _mm256_fmaddsub_pd(op1, op2, op3);
+}
+
+inline __m128 fmaddsub(__m128 op1, __m128 op2, __m128 op3) {
+	return _mm_fmaddsub_ps(op1, op2, op3);
+}
+
+inline __m128d fmaddsub(__m128d op1, __m128d op2, __m128d op3) {
+	return _mm_fmaddsub_pd(op1, op2, op3);
+}
+
+inline __m512 fmaddsub(__m512 op1, __m512 op2, __m512 op3) {
+	return _mm512_fmaddsub_ps(op1, op2, op3);
+}
+
+inline __m512d fmaddsub(__m512d op1, __m512d op2, __m512d op3) {
+	return _mm512_fmaddsub_pd(op1, op2, op3);
+}
+#pragma endregion
+
+#pragma region casts
+
+__m256 CastToM256(__m256d toCast) {
+	return _mm256_castpd_ps(toCast);
+}
+
+#pragma endregion
+
+
+#pragma region Relation operators
+__m256 operator< (__m256 LeftOperand, __m256 RightOperand) {
+	return _mm256_cmp_ps(LeftOperand, RightOperand, _CMP_LT_OQ);
+}
+
+__m128 operator< (__m128 LeftOperand, __m128 RightOperand) {
+	return _mm_cmp_ps(LeftOperand, RightOperand, _CMP_LT_OQ);
+}
+
+__m256 operator> (__m256 LeftOperand, __m256 RightOperand) {
+	return _mm256_cmp_ps(LeftOperand, RightOperand, _CMP_GT_OQ);
+}
+
+__m128 operator> (__m128 LeftOperand, __m128 RightOperand) {
+	return _mm_cmp_ps(LeftOperand, RightOperand, _CMP_GT_OQ);
+}
+
+__m256 operator<= (__m256 LeftOperand, __m256 RightOperand) {
+	return _mm256_cmp_ps(LeftOperand, RightOperand, _CMP_LE_OQ);
+}
+
+__m128 operator<= (__m128 LeftOperand, __m128 RightOperand) {
+	return _mm_cmp_ps(LeftOperand, RightOperand, _CMP_LE_OQ);
+}
+
+__m256 operator>= (__m256 LeftOperand, __m256 RightOperand) {
+	return _mm256_cmp_ps(LeftOperand, RightOperand, _CMP_GE_OQ);
+}
+
+__m128 operator>= (__m128 LeftOperand, __m128 RightOperand) {
+	return _mm_cmp_ps(LeftOperand, RightOperand, _CMP_GE_OQ);
+}
+__m128 operator== (__m128 LeftOperand, __m128 RightOperand) {
+	return _mm_cmp_ps(LeftOperand, RightOperand, _CMP_EQ_OQ);
+}
+__m256 operator== (__m256 LeftOperand, __m256 RightOperand) {
+	return _mm256_cmp_ps(LeftOperand, RightOperand, _CMP_EQ_OQ);
+}
+
+#pragma endregion
+
+
+#pragma region abs
+mi256_i8 abs(mi256_i8 Num) {
+	return _mm256_abs_epi8(Num);
+}
+mi256_i16 abs(mi256_i16 Num) {
+	return _mm256_abs_epi16(Num);
+}
+mi256_i32 abs(mi256_i32 Num) {
+	return _mm256_abs_epi32(Num);
+}
+mi256_i64 abs(mi256_i64 Num) {
+	return _mm256_abs_epi64(Num);
+}
+
+mi128_i8 abs(mi128_i8 Num) {
+	return _mm_abs_epi8(Num);
+}
+mi128_i16 abs(mi128_i16 Num) {
+	return _mm_abs_epi16(Num);
+}
+mi128_i32 abs(mi128_i32 Num) {
+	return _mm_abs_epi32(Num);
+}
+mi128_i64 abs(mi128_i64 Num) {
+	return _mm_abs_epi64(Num);
+}
+
+mi512_i8 abs(mi512_i8 Num) {
+	return _mm512_abs_epi8(Num);
+}
+mi512_i16 abs(mi512_i16 Num) {
+	return _mm512_abs_epi16(Num);
+}
+mi512_i32 abs(mi512_i32 Num) {
+	return _mm512_abs_epi32(Num);
+}
+mi512_i64 abs(mi512_i64 Num) {
+	return _mm512_abs_epi64(Num);
+}
+
+__m256 abs(__m256 Num) {
+	return _mm256_and_ps(Num, _mm256_castsi256_ps(_mm256_set1_epi32(0x7FFFFFFF)));
+}
+__m128 abs(__m128 Num) {
+	return _mm_and_ps(Num, _mm_castsi128_ps(_mm_set1_epi32(0x7FFFFFFF)));
+}
+
+__m512 abs(__m512 Num) {
+	return _mm512_and_ps(Num, _mm512_castsi512_ps(_mm512_set1_epi32(0x7FFFFFFF)));
+}
+
+__m256d abs(__m256d Num) {
+	return _mm256_and_pd(Num, _mm256_castsi256_pd(_mm256_set1_epi32(0x7FFFFFFFFFFFFFFF)));
+}
+__m128d abs(__m128d Num) {
+	return _mm_and_pd(Num, _mm_castsi128_pd(_mm_set1_epi32(0x7FFFFFFFFFFFFFFF)));
+}
+
+__m512d abs(__m512d Num) {
+	return _mm512_and_pd(Num, _mm512_castsi512_pd(_mm512_set1_epi32(0x7FFFFFFFFFFFFFFF)));
+}
+
+#pragma endregion
 
 uint32_t GetIntrinsics() {
 	static uint32_t AlreadyHaveASolution = 0;
