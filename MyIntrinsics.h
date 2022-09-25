@@ -58,33 +58,60 @@ void cpuid(int info[4], int InfoType) {
 #pragma endregion
 
 #pragma region intvectortypes
-using mi256_i64 = __m256i;
-using mi256_i32 = __m256i;
-using mi256_i16 = __m256i;
-using mi256_i8  = __m256i;
-using mi256_i64u = __m256i;
-using mi256_i32u = __m256i;
-using mi256_i16u = __m256i;
-using mi256_i8u  = __m256i;
+template<typename T>
+struct m256i {
+	__m256i val;
+	operator __m256i() const {
+		return val;
+	}
 
-using mi128_i64 =  __m128i;
-using mi128_i32 =  __m128i;
-using mi128_i16 =  __m128i;
-using mi128_i8 =   __m128i;
-using mi128_i64u = __m128i;
-using mi128_i32u = __m128i;
-using mi128_i16u = __m128i;
-using mi128_i8u =  __m128i;
+};
+template<typename T>
 
-using mi512_i64  = __m512i;
-using mi512_i32  = __m512i;
-using mi512_i16  = __m512i;
-using mi512_i8   = __m512i;
-using mi512_i64u = __m512i;
-using mi512_i32u = __m512i;
-using mi512_i16u = __m512i;
-using mi512_i8u  = __m512i;
+struct m128i {
+	__m128i val;
+	operator __m128i() const {
+		return val;
+	}
+};
+template<typename T>
+
+struct m512i {
+	__m512i val;
+	operator __m512i() const {
+		return val;
+	}
+};
+
+using mi256_i64 =  m256i<int64_t>;
+using mi256_i32 =  m256i<int32_t>;
+using mi256_i16 =  m256i<int16_t>;
+using mi256_i8  =  m256i<int8_t>;
+using mi256_i64u = m256i<uint64_t>;
+using mi256_i32u = m256i<uint32_t>;
+using mi256_i16u = m256i<uint16_t>;
+using mi256_i8u  = m256i<uint8_t>;
+
+using mi128_i64 =  m128i<int64_t>;
+using mi128_i32 = m128i<int32_t>;
+using mi128_i16 = m128i<int16_t>;
+using mi128_i8 = m128i<int8_t>;
+using mi128_i64u = m128i<uint64_t>;
+using mi128_i32u = m128i<uint32_t>;
+using mi128_i16u = m128i<uint16_t>;
+using mi128_i8u = m128i<uint8_t>;
+
+using mi512_i64  = m512i<int64_t>;
+using mi512_i32 = m512i<int32_t>;
+using mi512_i16 = m512i<int16_t>;
+using mi512_i8 = m512i<int8_t>;
+using mi512_i64u = m512i<uint64_t>;
+using mi512_i32u = m512i<uint32_t>;
+using mi512_i16u = m512i<uint16_t>;
+using mi512_i8u = m512i<uint8_t>;
 #pragma endregion
+
+#pragma region Loads
 
 inline __m256 mload(const float _a, const float _b, const float _c, const float _d, const float _e, const float _f, const float _g, const float _h) {
 	float _in[8] = { _a, _b, _c, _d,_e,  _f, _g, _h };
@@ -119,79 +146,79 @@ inline __m512d m512load(const double* _in) {
 }
 
 inline mi256_i64 mload(const int64_t _in[4]) {
-	return _mm256_loadu_epi64(_in);
+	return { _mm256_loadu_epi64(_in) };
 }
 inline mi256_i32 mload(const int32_t _in[8]) {
-	return _mm256_loadu_epi32(_in);
+	return { _mm256_loadu_epi32(_in) };
 }
 inline mi256_i16 mload(const int16_t _in[16]) {
-	return _mm256_loadu_epi16(_in);
+	return { _mm256_loadu_epi16(_in) };
 }
 inline mi256_i8 mload(const int8_t _in[32]) {
-	return _mm256_loadu_epi8(_in);
+	return { _mm256_loadu_epi8(_in) };
 }
 
 inline mi256_i64u mload(const uint64_t _in[4]) {
-	return _mm256_loadu_epi64(_in);
+	return { _mm256_loadu_epi64(_in) };
 }
 inline mi256_i32u mload(const uint32_t _in[8]) {
-	return _mm256_loadu_epi32(_in);
+	return { _mm256_loadu_epi32(_in) };
 }
 inline mi256_i16u mload(const uint16_t _in[16]) {
-	return _mm256_loadu_epi16(_in);
+	return { _mm256_loadu_epi16(_in) };
 }
 inline mi256_i8u mload(const uint8_t _in[32]) {
-	return _mm256_loadu_epi8(_in);
+	return { _mm256_loadu_epi8(_in) };
 }
 
 inline mi128_i64  m128load(const int64_t _in[2]) {
-	return _mm_loadu_epi64(_in);
+	return { _mm_loadu_epi64(_in) };
 }
 inline mi128_i32  m128load(const int32_t _in[4]) {
-	return _mm_loadu_epi32(_in);
+	return { _mm_loadu_epi32(_in) };
 }
 inline mi128_i16  m128load(const int16_t _in[8]) {
-	return _mm_loadu_epi16(_in);
+	return { _mm_loadu_epi16(_in) };
 }
 inline mi128_i8   m128load(const int8_t _in[16]) {
-	return _mm_loadu_epi8(_in);
+	return { _mm_loadu_epi8(_in) };
 }
 inline mi128_i64u m128load(const uint64_t _in[2]) {
-	return _mm_loadu_epi64(_in);
+	return { _mm_loadu_epi64(_in) };
 }
 inline mi128_i32u m128load(const uint32_t _in[4]) {
-	return _mm_loadu_epi32(_in);
+	return { _mm_loadu_epi32(_in) };
 }
 inline mi128_i16u m128load(const uint16_t _in[8]) {
-	return _mm_loadu_epi16(_in);
+	return { _mm_loadu_epi16(_in) };
 }
 inline mi128_i8u  m128load(const uint8_t _in[16]) {
-	return _mm_loadu_epi8(_in);
+	return { _mm_loadu_epi8(_in) };
 }
 
 inline mi512_i64  m512load(const int64_t _in[8]) {
-	return _mm512_loadu_epi64(_in);
+	return { _mm512_loadu_epi64(_in) };
 }
 inline mi512_i32  m512load(const int32_t _in[16]) {
-	return _mm512_loadu_epi32(_in);
+	return { _mm512_loadu_epi32(_in) };
 }
 inline mi512_i16  m512load(const int16_t _in[32]) {
-	return _mm512_loadu_epi16(_in);
+	return { _mm512_loadu_epi16(_in) };
 }
 inline mi512_i8   m512load(const int8_t _in[64]) {
-	return _mm512_loadu_epi8(_in);
+	return { _mm512_loadu_epi8(_in) };
 }
 inline mi512_i64u m512load(const uint64_t _in[8]) {
-	return _mm512_loadu_epi64(_in);
+	return { _mm512_loadu_epi64(_in) };
 }
 inline mi512_i32u m512load(const uint32_t _in[16]) {
-	return _mm512_loadu_epi32(_in);
+	return { _mm512_loadu_epi32(_in) };
 }
 inline mi512_i16u m512load(const uint16_t _in[32]) {
-	return _mm512_loadu_epi16(_in);
+	return { _mm512_loadu_epi16(_in) };
 }
 inline mi512_i8u  m512load(const uint8_t _in[64]) {
-	return _mm512_loadu_epi8(_in);
+	return { _mm512_loadu_epi8(_in) };
 }
 
 
@@ -205,6 +232,226 @@ inline __m128d m128load(const double _in[2]) {
 	return _mm_loadu_pd(_in);
 }
 
+#pragma endregion
+
+#pragma region Sets
+__m128 m128set(float Val) {
+	return _mm_set1_ps(Val);
+}
+
+__m128d m128set(double Val) {
+	return _mm_set1_pd(Val);
+}
+
+mi128_i64 m128set(int64_t Val) {
+	return { _mm_set1_epi64x(Val) };
+}
+
+mi128_i32 m128set(int32_t Val) {
+	return { _mm_set1_epi32(Val) };
+}
+
+mi128_i16 m128set(int16_t Val) {
+	return { _mm_set1_epi16(Val) };
+}
+
+mi128_i8 m128set(int8_t Val) {
+	return { _mm_set1_epi8(Val) };
+}
+
+mi128_i64u m128set(uint64_t Val) {
+	return { _mm_set1_epi64x(Val) };
+}
+
+mi128_i32u m128set(uint32_t Val) {
+	return { _mm_set1_epi32(Val) };
+}
+
+mi128_i16u m128set(uint16_t Val) {
+	return { _mm_set1_epi16(Val) };
+}
+
+mi128_i8u m128set(uint8_t Val) {
+	return { _mm_set1_epi8(Val) };
+}
+
+
+
+__m256 mset(float Val) {
+	return _mm256_set1_ps(Val);
+}
+
+__m256d mset(double Val) {
+	return _mm256_set1_pd(Val);
+}
+
+mi256_i64 mset(int64_t Val) {
+	return { _mm256_set1_epi64x(Val) };
+}
+
+mi256_i32 mset(int32_t Val) {
+	return { _mm256_set1_epi32(Val) };
+}
+
+mi256_i16 mset(int16_t Val) {
+	return { _mm256_set1_epi16(Val) };
+}
+
+mi256_i8 mset(int8_t Val) {
+	return { _mm256_set1_epi8(Val) };
+}
+
+mi256_i64u mset(uint64_t Val) {
+	return { _mm256_set1_epi64x(Val) };
+}
+
+mi256_i32u mset(uint32_t Val) {
+	return { _mm256_set1_epi32(Val) };
+}
+
+mi256_i16u mset(uint16_t Val) {
+	return { _mm256_set1_epi16(Val) };
+}
+
+mi256_i8u mset(uint8_t Val) {
+	return { _mm256_set1_epi8(Val) };
+}
+
+
+__m512 m512set(float Val) {
+	return _mm512_set1_ps(Val);
+}
+
+__m512d m512set(double Val) {
+	return _mm512_set1_pd(Val);
+}
+
+mi512_i64 m512set(int64_t Val) {
+	return { _mm512_set1_epi64(Val) };
+}
+
+mi512_i32 m512set(int32_t Val) {
+	return { _mm512_set1_epi32(Val) };
+}
+
+mi512_i16 m512set(int16_t Val) {
+	return { _mm512_set1_epi16(Val) };
+}
+
+mi512_i8 m512set(int8_t Val) {
+	return { _mm512_set1_epi8(Val) };
+}
+
+mi512_i64u m512set(uint64_t Val) {
+	return { _mm512_set1_epi64(Val) };
+}
+
+mi512_i32u m512set(uint32_t Val) {
+	return { _mm512_set1_epi32(Val) };
+}
+
+mi512_i16u m512set(uint16_t Val) {
+	return {_mm512_set1_epi16(Val)};
+}
+
+mi512_i8u m512set(uint8_t Val) {
+	return { _mm512_set1_epi8(Val) };
+}
+
+#pragma endregion
+
+#pragma region stores
+//will allocate memory and store to allocated memory, returning pointer to the memory
+inline float* mstore(const __m512 toStore) {
+	float* temp = (float*)malloc(sizeof(float) * 16);
+	_mm512_store_ps(temp, toStore);
+	return temp;
+}
+//will store to preallocated memory
+inline void mstore(float* storeTo, const __m512 toStore) {
+	_mm512_store_ps(storeTo, toStore);
+}
+
+
+//will allocate memory and store to allocated memory, returning pointer to the memory
+inline double* mstore(const __m512d toStore) {
+	double* temp = (double*)malloc(sizeof(double) * 8);
+	_mm512_store_pd(temp, toStore);
+	return temp;
+}
+//will store to preallocated memory
+inline void mstore(double* storeTo, const __m512d toStore) {
+	_mm512_store_pd(storeTo, toStore);
+}
+
+
+//will allocate memory and store to allocated memory, returning pointer to the memory
+inline float* mstore(const __m256 toStore) {
+	float* temp = (float*)malloc(sizeof(float) * 8);
+	_mm256_store_ps(temp, toStore);
+	return temp;
+}
+//will store to preallocated memory
+inline void mstore(float* storeTo,const __m256 toStore) {
+	_mm256_store_ps(storeTo, toStore);
+}
+
+//will allocate memory and store to allocated memory, returning pointer to the memory
+inline double* mstore(const __m256d toStore) {
+	double* temp = (double*)malloc(sizeof(double) * 4);
+	_mm256_store_pd(temp, toStore);
+	return temp;
+}
+//will store to preallocated memory
+inline void mstore(double* storeTo, const __m256d toStore) {
+	_mm256_store_pd(storeTo, toStore);
+}
+
+
+//will allocate memory and store to allocated memory, returning pointer to the memory
+inline float* mstore(const __m128 toStore) {
+	float* temp = (float*)malloc(sizeof(float) * 4);
+	_mm_store_ps(temp, toStore);
+	return temp;
+}
+//will store to preallocated memory
+inline void mstore(float* storeTo, const __m128 toStore) {
+	_mm_store_ps(storeTo, toStore);
+}
+
+//will allocate memory and store to allocated memory, returning pointer to the memory
+inline double* mstore(const __m128d toStore) {
+	double* temp = (double*)malloc(sizeof(double) * 2);
+	_mm_store_pd(temp, toStore);
+	return temp;
+}
+//will store to preallocated memory
+inline void mstore(double* storeTo, const __m128d toStore) {
+	_mm_store_pd(storeTo, toStore);
+}
+
+inline int64_t* mstore(const mi256_i64 toStore) {
+	int64_t* temp = (int64_t*)malloc(sizeof(int64_t) * 2);
+	_mm256_storeu_epi64(temp, toStore.val);
+	return temp;
+}
+
+inline void mstore(int64_t* storeTo, const mi256_i64 toStore) {
+	_mm256_storeu_epi64(storeTo, toStore.val);
+}
+
+inline int32_t* mstore(const mi256_i32 toStore) {
+	int32_t* temp = (int32_t*)malloc(sizeof(int32_t) * 2);
+	_mm256_storeu_epi32(temp, toStore);
+	return temp;
+}
+
+inline void mstore(int32_t* storeTo, const mi256_i32 toStore) {
+	_mm256_storeu_epi32(storeTo, toStore.val);
+}
+
+
+#pragma endregion
 
 
 
@@ -289,20 +536,34 @@ __m128d operator/ (const __m128d& a, const __m128d& b) {
 #pragma region mi256_64 operators
 mi256_i64 operator+ (const mi256_i64& a, const mi256_i64& b) {
 
-	return _mm256_add_epi64(a, b);
+	return { _mm256_add_epi64(a.val, b.val) };
 }
 mi256_i64 operator- (const mi256_i64& a, const mi256_i64& b) {
-	return _mm256_sub_epi64(a, b);
+	return { _mm256_sub_epi64(a.val, b.val) };
 }
 mi256_i64 operator* (const mi256_i64& a, const mi256_i64& b) {
-	return _mm256_mul_epi32(a, b);
+	return { _mm256_mul_epi32(a.val, b.val) };
 }
 mi256_i64 operator/ (const mi256_i64& a, const mi256_i64& b) {
-	return _mm256_div_epi64(a, b);
+	return { _mm256_div_epi64(a, b) };
 }
 
 #pragma endregion
 
+mi256_i32 operator+ (const mi256_i32& a, const mi256_i32& b) {
+
+	return { _mm256_add_epi32(a, b) };
+}
+
+mi256_i32 operator- (const mi256_i32& a, const mi256_i32& b) {
+	return { _mm256_sub_epi32(a, b) };
+}
+mi256_i32 operator* (const mi256_i32& a, const mi256_i32& b) {
+	return { _mm256_mul_epi32(a, b) };
+}
+mi256_i32 operator/ (const mi256_i32& a, const mi256_i32& b) {
+	return { _mm256_div_epi64(a, b) };
+}
 
 uint32_t GetIntrinsics() {
 	static uint32_t AlreadyHaveASolution = 0;
@@ -370,4 +631,23 @@ uint32_t GetIntrinsics() {
 
 	AlreadyHaveASolution = Result;
 	return Result;
+}
+
+
+
+template< typename T>
+void MulRow(T Multiplier, T* Values, size_t AmmountOfElements) {
+	uint32_t intrinsics = GetIntrinsics();
+	if (intrinsics & INTRIN_AVX_512F && AmmountOfElements  >= 64 / sizeof(T)) {
+		auto val = m512load(Values);
+		
+		val = Multiplier * val;
+		mstore(Values, val);
+		auto mul = mset((T)val);
+		MulRow(Multiplier, Values + 64 / sizeof(T), AmmountOfElements - 64 / sizeof(T));
+		return;
+	}
+
+	if (intrinsics & INTRIN_AVX2 && AmmountOfElements >= 32 / sizeof(T)) {
+	}
 }

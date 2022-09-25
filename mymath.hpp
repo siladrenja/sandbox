@@ -100,16 +100,6 @@ namespace math {
 			return BasicMatrix<Size_Y, Size_X, T, EnableIntrinsics>(temp);
 		}
 
-		template<size_t SizeX_second>
-		BasicMatrix<Size_X + SizeX_second, Size_Y, T, EnableIntrinsics> operator<< (BasicMatrix<SizeX_second, Size_Y, T, EnableIntrinsics> SecondMatrix) {
-			BasicMatrix<Size_X + SizeX_second, Size_Y, T, EnableIntrinsics> temp;
-
-			std::copy(_1_MatrixData, _1_MatrixData + Size_X * Size_Y, temp.GetRawData());
-			T* tmp = SecondMatrix.GetRawData();
-			std::copy(tmp, tmp + SizeX_second * Size_Y, temp.GetRawData() + Size_X * Size_Y);
-
-			return temp;
-		}
 
 		//not recommended to temper with
 		T* GetRawData() {
@@ -121,6 +111,18 @@ namespace math {
 		T _1_MatrixData[Size_X * Size_Y];
 
 	};
+
+
+#pragma region matrix operators
+	template<size_t Size_X, size_t Size_Y, typename T, bool EnableIntrinsics = false>
+	BasicMatrix<Size_X, Size_Y, T, true> operator* (long long num, BasicMatrix<Size_X, Size_Y, T, true> mat) {
+		T* matrixData = mat.GetRawData();
+
+		
+
+	}
+
+#pragma endregion
 
 	template<typename T, bool EnableIntrinsics = false>
 	class BasicVector3 : public BasicMatrix<1, 3, T, EnableIntrinsics> {
