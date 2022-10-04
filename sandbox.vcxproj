@@ -90,7 +90,9 @@
       <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +107,9 @@
       <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +126,9 @@
       <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,7 +147,9 @@
       <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <FloatingPointModel>Precise</FloatingPointModel>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,12 +159,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CustomString.hpp" />
-    <ClInclude Include="D:\documents\libraries\library.h" />
-    <ClInclude Include="MyIntrinsics.h" />
-    <ClInclude Include="MyLinkedList.h" />
+    <ClInclude Include="library.hpp" />
+    <ClInclude Include="MyIntrinsics.hpp" />
+    <ClInclude Include="MyLinkedList.hpp" />
     <ClInclude Include="mymath.hpp" />
-    <ClInclude Include="myOpenGL.h" />
-    <ClInclude Include="MyThreading.h" />
+    <ClInclude Include="myOpenGL.hpp" />
+    <ClInclude Include="MyThreading.hpp" />
     <ClInclude Include="WindowsSpecificExtentions.hpp" />
   </ItemGroup>
   <ItemGroup>

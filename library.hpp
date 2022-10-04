@@ -38,6 +38,10 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
+typedef uint8_t  i8u;
+typedef uint16_t i16u;
+typedef uint32_t i32u;
+typedef uint64_t i64u;
 
 
 
@@ -305,3 +309,21 @@ std::ostream& operator<< (std::ostream& _1_stream, std::pair<std::vector<_1_T>, 
 
 	return _1_stream;
 }
+
+template <typename _1_T>
+std::ostream& operator<< (std::ostream& _1_stream, const std::pair<_1_T*, _1_T*>& _1_stru) {
+	
+	_1_T* _pointer = _1_stru.first;
+	while (_pointer != _1_stru.second) {
+		_1_stream << *(_pointer++) << ' ';
+	}
+
+	return _1_stream;
+}
+
+
+#pragma region More Ints
+using i128 = i64u[2];
+using i256 = i64u[4];
+
+#pragma endregion

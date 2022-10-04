@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\documents\libraries\library.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CustomString.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,16 +24,19 @@
     <ClInclude Include="WindowsSpecificExtentions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyLinkedList.h">
+    <ClInclude Include="MyLinkedList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyThreading.h">
+    <ClInclude Include="MyThreading.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyIntrinsics.h">
+    <ClInclude Include="MyIntrinsics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="myOpenGL.h">
+    <ClInclude Include="myOpenGL.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
