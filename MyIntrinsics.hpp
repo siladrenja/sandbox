@@ -353,6 +353,43 @@ inline mi512_i8u  m512load(const uint8_t _in[64]) {
 
 
 #pragma region sumsaves
+float msumsave(m512 in) {
+	float temp[16];
+	_mm512_storeu_ps(temp, in);
+	return (temp[0] + temp[1] + temp[2] + temp[3] + temp[4] + temp[5] + temp[6] + temp[7] + temp[8] + temp[9] + temp[10] + temp[11] + temp[12] + temp[13] + temp[14] + temp[15]);
+}
+
+double msumsave(m512d in) {
+	double temp[8];
+	_mm512_storeu_pd(temp, in);
+	return (temp[0] + temp[1] + temp[2] + temp[3] + temp[4] + temp[5] + temp[6] + temp[7]);
+}
+
+int8_t msumsave(mi512_i8 in) {
+	int8_t temp[64];
+	_mm512_storeu_epi8(temp, in);
+	return (temp[0] + temp[1] + temp[2] + temp[3] + temp[4] + temp[5] + temp[6] + temp[7] + temp[8] + temp[9] + temp[10] + temp[11] + temp[12] + temp[13] + temp[14] + temp[15] + temp[16] + temp[17] + temp[18] + temp[19] + temp[20] + temp[21] + temp[22] + temp[23] + temp[24] + temp[25] + temp[26] + temp[27] + temp[28] + temp[29] + temp[30] + temp[31] + temp[32] + temp[33] + temp[34] + temp[35] + temp[36]  + temp[37] + temp[38] + temp[39] + temp[40] + temp[41] + temp[42] + temp[43] + temp[44] + temp[45] + temp[46] + temp[47] + temp[48] + temp[49] + temp[50] + temp[51] + temp[52] + temp[53] + temp[54] + temp[55] + temp[56] + temp[57] + temp[58] + temp[59] + temp[60] + temp[61] + temp[62] + temp[63]);
+}
+
+int16_t msumsave(mi512_i16 in) {
+	int32_t temp[32];
+	_mm512_storeu_epi32(temp, in);
+	return (temp[0] + temp[1] + temp[2] + temp[3] + temp[4] + temp[5] + temp[6] + temp[7] + temp[8] + temp[9] + temp[10] + temp[11] + temp[12] + temp[13] + temp[14] + temp[15] + temp[16] + temp[17] + temp[18] + temp[19] + temp[20] + temp[21] + temp[22] + temp[23] + temp[24] + temp[25] + temp[26] + temp[27] + temp[28] + temp[29] + temp[30] + temp[31]);
+}
+
+int32_t msumsave(mi512_i32 in) {
+	int32_t temp[16];
+	_mm512_storeu_epi32(temp, in);
+	return (temp[0] + temp[1] + temp[2] + temp[3] + temp[4] + temp[5] + temp[6] + temp[7] + temp[8] + temp[9] + temp[10] + temp[11] + temp[12] + temp[13] + temp[14] + temp[15]);
+}
+
+int64_t msumsave(mi512_i64 in) {
+	int64_t temp[8];
+	_mm512_storeu_epi64(temp, in);
+	return (temp[0] + temp[1] + temp[2] + temp[3] + temp[4] + temp[5] + temp[6] + temp[7]);
+}
+
+
 float msumsave(m256 in) {
 	float temp[8];
 	_mm256_storeu_ps(temp, in);
@@ -816,6 +853,9 @@ mi128_i32 operator/(const mi128_i32& a, const mi128_i32& b) {
 	return { _mm_div_epi32(a, b) };
 }
 
+/*
+WARNING: AVX-512DQ required for _mm_mullo_epi64
+*/
 mi128_i64 operator*(const mi128_i64& a, const mi128_i64& b) {
 	return { _mm_mullo_epi64(a, b) };
 }
@@ -1125,7 +1165,8 @@ m128 m128gather(float* Val, int32_t offset) {
 	return _mm_i32gather_ps(Val, _indexes, sizeof(int32_t));
 }
 m128d m128gather(double* Val, int64_t offset) {
-	mi128_i64 _indexes = m128load(indexes64) * m128set(offset);
+	int64_t indexes[] = { 0, offset };
+	mi128_i64 _indexes = m128load(indexes) ;
 	return _mm_i64gather_pd(Val, _indexes, sizeof(int64_t));
 }
 mi128_i32 m128gather(int32_t* Val, int32_t offset) {
@@ -1259,4 +1300,5 @@ void MulRow(T Multiplier, T* Values, size_t AmmountOfElements) {
 /*todo
 operator*=
 
+rewrite sumsave to convert to lower intrinsic state, add that, and so on (e.g. sumsave(m512) converts that 512 into 2 256 values, adds them, then converts sum into 2 128 values, sums them, and then sums all 128 values
 */
