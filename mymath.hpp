@@ -290,6 +290,7 @@ namespace math {
 #pragma endregion
 
 }
+
 #pragma region matrix *= matrix
 template<size_t x, size_t y, size_t x2, typename T, bool optim>
 math::BasicMatrix<x2, y, T, optim> mulNoOptim(math::BasicMatrix<x, y, T, optim>& mat1, math::BasicMatrix<x2, x, T, optim>& mat2) {
