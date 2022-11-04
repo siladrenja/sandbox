@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GLAD">
+      <UniqueIdentifier>{01dbed84-f2d2-4119-88a4-a11c7fab5c00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomString.hpp">
@@ -21,7 +24,7 @@
     <ClInclude Include="mymath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsSpecificExtentions.hpp">
+    <ClInclude Include="WindowLibrary.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyLinkedList.hpp">
@@ -39,10 +42,19 @@
     <ClInclude Include="library.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stbi.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLibrary.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLAD\src\glad.c">
+      <Filter>GLAD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

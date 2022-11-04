@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <functional>
 
 #include <iostream>
 namespace WinControls {
@@ -234,108 +235,120 @@ namespace Win {
 
 #pragma region AddingCallbacks
         //adds for any window message you give it
-        inline void AddGenericCallback(const UINT& MessageToHandle, WindowEvent(*foo)(const WPARAM&, const LPARAM&)) {
+        inline void AddGenericCallback(const UINT& MessageToHandle, std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             if (CallbackList.find(MessageToHandle) == CallbackList.end()) {
-                CallbackList.insert(std::make_pair(MessageToHandle, std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>(1,foo)));
+                CallbackList.insert(std::make_pair(MessageToHandle, std::vector<std::function<void(const WPARAM&, const LPARAM&, Window&)>>(1,foo)));
             } else {
                 CallbackList.at(MessageToHandle).push_back(foo);
             }
 
-        }//std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>(foo);
+        }//std::vector<void(*)(const WPARAM&, const LPARAM&)>(foo);
 
         //set premade unordered map that already has all the callbacks preset
-        inline void SetCallbacks(const std::unordered_map<UINT, std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>>& umap) {
+        inline void SetCallbacks(const std::unordered_map<UINT, std::vector<std::function<void(const WPARAM&, const LPARAM&, Window&)>>>& umap) {
             CallbackList = umap;
         }
 
         //Called when user wants to close the window
-        inline void AddCloseCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddCloseCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_CLOSE, foo);
         }
 
         //Called when window is ready to paint
-        inline void AddPaintCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddPaintCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_PAINT, foo);
         }
 
         //Called when keyboard button is a char and pressed
-        inline void AddKeyboardCharacterCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddKeyboardCharacterCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_CHAR, foo);
         }
 
         //Called when keyboard button is a char and depressed(it's ok keyboard character, it'll be better)
-        inline void AddKeyboardCharacterUpCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddKeyboardCharacterUpCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_DEADCHAR, foo);
         }
 
         //called when any key is down
-        inline void AddKeyboardButtonDownCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddKeyboardButtonDownCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_KEYDOWN, foo);
         }
 
 
         //called when any key is up
-        inline void AddKeyboardButtonUpCallback(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddKeyboardButtonUpCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_KEYUP, foo);
         }
 
         //called when left mouse button is down
-        inline void AddLeftMouseDown(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddLeftMouseDown(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_LBUTTONDOWN, foo);
         }
         //called when left mouse button is up
-        inline void AddLeftMouseUp(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddLeftMouseUp(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_LBUTTONUP, foo);
         }
 
         //called when right mouse button is down
-        inline void AddRightMouseDown(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddRightMouseDown(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_RBUTTONDOWN, foo);
         }
 
         //called when right mouse button is up
-        inline void AddRightMouseUp(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddRightMouseUp(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_RBUTTONUP, foo);
         }
 
-        inline void AddMiddleMouseDown(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddMiddleMouseDown(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_MBUTTONDOWN, foo);
         }
 
-        inline void AddMiddleMouseUp(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddMiddleMouseUp(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_MBUTTONUP, foo);
         }
 
-        inline void AddLeftDoubleClick(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddLeftDoubleClick(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_LBUTTONDBLCLK, foo);
 
         }
 
-        inline void AddRightDoubleClick(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddRightDoubleClick(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_RBUTTONDBLCLK, foo);
 
         }
 
-        inline void AddMiddleDoubleClick(WindowEvent(*foo)(const WPARAM& wParam, const LPARAM& lParam)) {
+        inline void AddMiddleDoubleClick(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
             AddGenericCallback(WM_MBUTTONDBLCLK, foo);
+
+        }
+
+        inline void AddResizeCallback(std::function<void(const WPARAM&, const LPARAM&, Window&)> foo) {
+            AddGenericCallback(WM_SIZE, foo);
 
         }
         
 #pragma endregion
-        HWND hwnd;
+        
+        inline const HWND GetHwnd()const { return hwnd; }
+        inline const HDC GetHDC() const { return GetDC(hwnd); }
 
-    private:
+        void SwapWindowBuffers() const {
+            SwapBuffers(GetHDC());
+        }
+
+        friend LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    protected:
 #pragma region PrivateMembers
         WNDCLASSEX wc;
-
-        std::unordered_map<UINT, std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)>> CallbackList;
+        HWND hwnd;
+        std::unordered_map<UINT, std::vector<std::function<void(const WPARAM&, const LPARAM&, Window&)>>> CallbackList;
 
 
         WindowEvent Procedure(const UINT& msg, const WPARAM& wParam, const LPARAM& lParam) {
             if (CallbackList.find(msg) != CallbackList.end()){
-                std::vector<WindowEvent(*)(const WPARAM&, const LPARAM&)> temp = CallbackList[msg];
+                std::vector< std::function<void(const WPARAM&, const LPARAM&, Window&)>> temp = CallbackList[msg];
                 for (auto temp2 : temp) {
-                    (*temp2)(wParam, lParam);
+                    temp2(wParam, lParam, *this);
                 }
 
             }else {

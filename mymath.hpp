@@ -8,9 +8,7 @@
 #include <MyIntrinsics.hpp>
 #include <vector>
 
-#ifndef ull
-#define ull unsigned long long
-#endif
+
 
 #ifndef MATRIX_DETERMINANT_PARALEL_TRESHOLD
 #define MATRIX_DETERMINANT_PARALEL_TRESHOLD 6
@@ -128,10 +126,18 @@ namespace math {
 		T* GetRawData() const {
 			return _1_MatrixData;
 		}
+
+		void ResetDeterminant() {
+			determinant = 0;
+		}
+
+		friend T det(const math::BasicMatrix<Size_X, Size_X, T, EnableIntrinsics>& mat);
 	
 	protected:
 		//elem = Ycoord * Size_X + Xcoord;
 		T *_1_MatrixData;
+
+		T determinant = 0;
 
 	};
 
@@ -200,35 +206,94 @@ namespace math {
 		}
 #pragma endregion
 
-
-
 	template<typename T, bool EnableIntrinsics = false>
-	class BasicVector3 : public BasicMatrix<1, 3, T, EnableIntrinsics> {
+	struct BasicVector2 {
 	public:
-		
-
-		T& X() {
-			return this->_1_MatrixData[0];
+	public:
+		T X, Y;
+		BasicVector2() {}
+		BasicVector2(const T& _X, const T& _Y) {
+			X = _X;
+			Y = _Y;
 		}
 
-		T& Y() {
-			return this->_1_MatrixData[1];
+		BasicVector2(const BasicVector2& CopyConst) {
+			X = CopyConst.X;
+			Y = CopyConst.Y;
 		}
 
-		T& Z() {
-			return this->_1_MatrixData[2];
-
+		BasicVector2& operator=(const BasicVector2& CopyConst) {
+			X = CopyConst.X;
+			Y = CopyConst.Y;
+			return *this;
 		}
 
-		struct { T X, Y, Z; } GetPoint() {
-			return { this->_1_MatrixData[0], this->_1_MatrixData[1], this->_1_MatrixData[2]};
-		}
 	private:
-		
-
 	};
 
+	template<typename T, bool EnableIntrinsics = false>
+	struct BasicVector3 {
+	public:
+		T X, Y, Z;
+		BasicVector3() {}
+		BasicVector3(T _X, T _Y, T _Z) {
+			X = _X;
+			Y = _Y;
+			Z = _Z;
+		}
+
+		BasicVector3(const BasicVector3& CopyConst) {
+			X = CopyConst.X;
+			Y = CopyConst.Y;
+			Z = CopyConst.Z;
+		}
+
+		BasicVector3& operator=(const BasicVector3& CopyConst) {
+			X = CopyConst.X;
+			Y = CopyConst.Y;
+			Z = CopyConst.Z;
+			return *this;
+		}
+
+	private:
+	};
+
+	template<typename T, bool EnableIntrinsics = false>
+	struct BasicVector4 {
+	public:
+		T X, Y, Z, W;
+		BasicVector4() {}
+		BasicVector4(T _X, T _Y, T _Z, T _W) {
+			X = _X;
+			Y = _Y;
+			Z = _Z;
+			W = _W;
+		}
+
+		BasicVector4(const BasicVector4& CopyConst) {
+			X = CopyConst.X;
+			Y = CopyConst.Y;
+			Z = CopyConst.Z;
+			W = CopyConst.W;
+
+		}
+
+		BasicVector4& operator=(const BasicVector4& CopyConst) {
+			X = CopyConst.X;
+			Y = CopyConst.Y;
+			Z = CopyConst.Z;
+			W = CopyConst.W;
+			return *this;
+		}
+
+	private:
+	};
+
+	using Vector4 = BasicVector4<float, true>;
 	using Vector3 = BasicVector3<float, true>;
+	using Vector2 = BasicVector2<float, true>;
+	
+
 
 	template<size_t Size_X, size_t Size_Y>
 	using Matrix = BasicMatrix<Size_X, Size_Y, float, true>;
@@ -249,7 +314,7 @@ namespace math {
 
 #pragma region determinants
 	template<size_t X, typename T, bool optim>
-	T det(const math::BasicMatrix<2, 2, T, optim>& mat) {
+	inline T det(const math::BasicMatrix<2, 2, T, optim>& mat) {
 		return (mat[0][0] * mat[1][1]) - (mat[1][0] * mat[0][1]);
 	}
 
@@ -257,22 +322,25 @@ namespace math {
 
 	template<size_t X, typename T, bool optim>
 	T det(const math::BasicMatrix<X, X, T, optim>& mat) {
+		if (mat.determinant != 0)return mat.determinant;
+
 		switch (X >= MATRIX_DETERMINANT_PARALEL_TRESHOLD) {
 		case true:
 		{
-		//	std::vector<std::thread> threads(X, std::thread());
-		//	std::vector<T> results(X, T());
-		//	std::vector<bool> threadfinished(X, false);
-		//
-		//	for (size_t i = 0; i < X; i++) {
-		//		threads[i] = std::thread([&results, &threadfinished, &mat](size_t threadIndex) {
-		//				results[threadIndex] = det(removeCross(mat, threadIndex, 0));
-		//				threadfinished[threadIndex] = true;
-		//			}, i);
-		//
-		//	}
-		//	while (sum(threadfinished) > 0);
-		//	return sum(results);
+			std::vector<std::thread> threads(X, std::thread());
+			std::vector<T> results(X, T());
+			std::vector<bool> threadfinished(X, false);
+		
+			for (size_t i = 0; i < X; i++) {
+				threads[i] = std::thread([&results, &threadfinished, &mat](size_t threadIndex) {
+						results[threadIndex] = det(removeCross(mat, threadIndex, 0));
+						threadfinished[threadIndex] = true;
+					}, i);
+		
+			}
+			while (sum(threadfinished) > 0);
+			mat.determinant = sum(results);
+			return mat.determinant;
 		}
 		case false:
 		{
@@ -281,8 +349,8 @@ namespace math {
 				results[i] = det(removeCross(mat, i, 0));
 
 			}
-
-			return sum(results);
+			mat.determinant = sum(results);
+			return mat.determinant;
 		}
 		}
 	}

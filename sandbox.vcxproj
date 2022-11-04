@@ -70,16 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\documents\libraries;.\;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;.\;.\GLAD\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\documents\libraries;.\;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;.\;.\GLAD\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\documents\libraries;.\;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;.\;.\GLAD\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\documents\libraries;.\;$(IncludePath)</IncludePath>
+    <IncludePath>D:\documents\libraries;.\;.\GLAD\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,7 +87,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;.\;.\GLAD\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -104,7 +104,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;.\;.\GLAD\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -123,7 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;.\;.\GLAD\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -144,7 +144,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\documents\libraries;.\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\documents\libraries;.\;.\GLAD\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -159,15 +159,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CustomString.hpp" />
+    <ClInclude Include="ImageLibrary.hpp" />
     <ClInclude Include="library.hpp" />
     <ClInclude Include="MyIntrinsics.hpp" />
     <ClInclude Include="MyLinkedList.hpp" />
     <ClInclude Include="mymath.hpp" />
     <ClInclude Include="myOpenGL.hpp" />
     <ClInclude Include="MyThreading.hpp" />
-    <ClInclude Include="WindowsSpecificExtentions.hpp" />
+    <ClInclude Include="stbi.h" />
+    <ClInclude Include="WindowLibrary.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GLAD\src\glad.c" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
