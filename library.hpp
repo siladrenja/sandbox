@@ -295,7 +295,16 @@ std::ostream& operator<< (std::ostream& _1_stream, const std::vector<T>& _1_in) 
 }
 
 
-
+//template <typename _1_T>
+//std::ostream& operator<< (std::ostream& _1_stream, const std::pair<_1_T*, _1_T*>& _1_stru) {
+//
+//	_1_T* _pointer = _1_stru.first;
+//	while (_pointer != _1_stru.second) {
+//		_1_stream << *(_pointer++) << ' ';
+//	}
+//
+//	return _1_stream;
+//}
 
 template <typename _1_T>
 std::ostream& operator<< (std::ostream& _1_stream, std::pair<std::vector<_1_T>, const char*> _1_stru) {
@@ -310,20 +319,16 @@ std::ostream& operator<< (std::ostream& _1_stream, std::pair<std::vector<_1_T>, 
 	return _1_stream;
 }
 
-template <typename _1_T>
-std::ostream& operator<< (std::ostream& _1_stream, const std::pair<_1_T*, _1_T*>& _1_stru) {
-	
-	_1_T* _pointer = _1_stru.first;
-	while (_pointer != _1_stru.second) {
-		_1_stream << *(_pointer++) << ' ';
-	}
 
-	return _1_stream;
-}
 
 
 #pragma region More Ints
-using i128 = i64u[2];
-using i256 = i64u[4];
+struct i128 {
+	i64u val[2];
+};
+struct i256 {
+	i64u val[4];
+};
 
 #pragma endregion
+

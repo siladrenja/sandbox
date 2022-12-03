@@ -36,6 +36,31 @@ namespace myGL {
 	using Rectd = BasicRect<double, true>;
 	using Rectl = BasicRect<int64_t, true>;
 
+	using Rect2 =  BasicRect2<float, true>;
+	using Rect2i = BasicRect2<int32_t, true>;
+	using Rect2d = BasicRect2<double, true>;
+	using Rect2l = BasicRect2<int64_t, true>;
+
+	template <typename T, bool intrinEnable = false>
+	struct BasicTriangle {
+		math::BasicVector3<T, intrinEnable> A,B,C;
+	};
+
+	template <typename T, bool intrinEnable = false>
+	struct BasicTriangle2 {
+		math::BasicVector2<T, intrinEnable> A, B, C;
+	};
+
+	using Triangle =  BasicTriangle<float, true>;
+	using Trianglei = BasicTriangle<int32_t, true>;
+	using Triangled = BasicTriangle<double, true>;
+	using Trianglel = BasicTriangle<int64_t, true>;
+
+	using Triangle2 =  BasicTriangle2<float, true>;
+	using Triangle2i = BasicTriangle2<int32_t, true>;
+	using Triangle2d = BasicTriangle2<double, true>;
+	using Triangle2l = BasicTriangle2<int64_t, true>;
+
 	enum class ShaderType {
 		vertex = GL_VERTEX_SHADER,
 		fragment = GL_FRAGMENT_SHADER,
@@ -52,6 +77,7 @@ namespace myGL {
 			glShaderSource(shaderID, 1, &shaderData, NULL);
 			glCompileShader(shaderID);
 		}
+		
 
 		inline unsigned int GetID() const {
 			return shaderID;
@@ -78,6 +104,10 @@ namespace myGL {
 			}
 		}
 
+		void AttachShader(const Shader& shad) {
+				glAttachShader(programID, shad.GetID());
+		}
+
 		inline void LinkProgram() {
 			glLinkProgram(programID);
 		}
@@ -85,6 +115,10 @@ namespace myGL {
 
 		inline void Use() {
 			glUseProgram(programID);
+		}
+
+		const unsigned int GetID() const {
+			return programID;
 		}
 
 	protected:
@@ -170,6 +204,35 @@ namespace myGL {
 		Texture* textures = 0;
 		size_t numTextures = 0;
 	};
+
+	namespace PremadeShaders {
+		//constexpr const char* Basic2DVertexShader =
+		//	"#version 330 core\n"
+		//	"layout (location = 0) in vec3 aPos;\n"
+		//	"void main()\n"
+		//	"{\n"
+		//	"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+		//	"}\0"
+		//	;
+
+		Shader Basic2DVertexShader() {
+			return Shader("#version 330 core\n"
+				"layout (location = 0) in vec3 aPos;\n"
+				"void main()\n"
+				"{\n"
+				"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+				"}\0", ShaderType::vertex);
+		}
+
+		Shader Basic2DFragmentShader() {
+			return Shader("#version 330 core\n"
+				"out vec4 FragColor;\n"
+				"void main()\n"
+				"{\n"
+				"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+				"}\0", ShaderType::fragment);
+		}
+	}
 }
 
 

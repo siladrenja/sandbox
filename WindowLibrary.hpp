@@ -173,25 +173,21 @@ namespace Win {
     };
 
     
-    inline int MessageLoop() {
-        MSG Msg;
-        while (GetMessage(&Msg, NULL, 0, 0) > 0) {
-            TranslateMessage(&Msg);
-            DispatchMessage(&Msg);
-        }
-        return Msg.wParam;
-    }
+    
 
 
 
-        LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-        class Window;
-        std::vector<Window*> WindowList = {};
+    class Window;
+    std::vector<Window*> WindowList = {};
+
+    
 
     class Window {
     public:
         Window(const wchar_t* name = L"Basic Window", int startingX = CW_USEDEFAULT, int startingY = CW_USEDEFAULT, int startingWidth = 800, int startingHeight = 800, HINSTANCE hInstance = GetModuleHandle(0)) {
+            windowListPosition = WindowList.size();
             WindowList.push_back(this);
             wc.cbSize = sizeof(WNDCLASSEX);
             wc.style = CS_DBLCLKS;
@@ -326,6 +322,10 @@ namespace Win {
             AddGenericCallback(WM_SIZE, foo);
 
         }
+
+        inline void AddUpdateCallback(std::function<void(Window&)> foo) {
+            UpdateCallbacks.push_back(foo);
+        }
         
 #pragma endregion
         
@@ -337,12 +337,15 @@ namespace Win {
         }
 
         friend LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+        friend inline int MessageLoop();
     protected:
 #pragma region PrivateMembers
         WNDCLASSEX wc;
         HWND hwnd;
         std::unordered_map<UINT, std::vector<std::function<void(const WPARAM&, const LPARAM&, Window&)>>> CallbackList;
+        std::vector< std::function<void(Window&)>> UpdateCallbacks;
 
+        size_t windowListPosition = 0;
 
         WindowEvent Procedure(const UINT& msg, const WPARAM& wParam, const LPARAM& lParam) {
             if (CallbackList.find(msg) != CallbackList.end()){
@@ -355,6 +358,11 @@ namespace Win {
                 switch (msg) {
                 case WM_CLOSE:
                     DestroyWindow(hwnd);
+                    WindowList.erase(WindowList.begin() + windowListPosition);
+
+                    for (size_t i = windowListPosition; i < WindowList.size(); i++) {
+                        WindowList[windowListPosition]->windowListPosition--;
+                    }
                     break;
                 case WM_DESTROY:
                     PostQuitMessage(0);
@@ -393,5 +401,21 @@ namespace Win {
             return 0;
         }
 
+
+        inline int MessageLoop() {
+            MSG Msg;
+            while (!WindowList.empty()) {
+                if (PeekMessage(&Msg, 0, 0, 0, PM_REMOVE)) {
+                    TranslateMessage(&Msg);
+                    DispatchMessage(&Msg);
+                }
+                for (Window* w : WindowList) {
+                    for (std::function<void(Window&)>& foo : w->UpdateCallbacks) {
+                        foo(*w);
+                    }
+                }
+            }
+            return Msg.wParam;
+        }
     
 }

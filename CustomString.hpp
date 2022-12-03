@@ -18,10 +18,8 @@ namespace extstd {
 			return this->starts_with(subStr);
 
 #else
-			if (this->rfind(subStr, 0) == 0) {
-				return true;
-			}
-			return false;
+			return !(this->rfind(subStr, 0));
+
 #endif
 		}
 		inline bool StartsWith(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> subStr[]) {
@@ -29,10 +27,8 @@ namespace extstd {
 			return this->starts_with(subStr);
 
 #else
-			if (this->rfind(subStr, 0) == 0) {
-				return true;
-			}
-			return false;
+			return !(this->rfind(subStr, 0));
+
 #endif
 			
 		}
@@ -54,7 +50,11 @@ namespace extstd {
 			
 		}
 
-		using push_front = this->prepend;
+		inline void push_front(std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> PrepString) {
+			this->insert(0, PrepString);
+			std::string st;
+
+		}
 
 		inline std::basic_string<_Elem, std::char_traits<_Elem>, std::allocator<_Elem>> toLower() {
 			Basic_String<_Elem, char_traits<_Elem>, allocator<_Elem>> __copy(*this);
