@@ -90,7 +90,7 @@ namespace Alloc {
 		}
 
 		void UpdatePointer(void* NewPointer) override{
-			std::copy(loc, loc + AllocatedSize, NewPointer);
+			std::copy(loc, loc + AllocatedSize, (char*)NewPointer);
 
 			loc = (T*)NewPointer;
 		}
