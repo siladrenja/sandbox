@@ -24,13 +24,7 @@ namespace Alloc {
 			Allocated = (char*)malloc(Size);
 		}
 
-#ifdef _HAS_CXX17
-		[[nodiscard]]
-#endif
-		std::pair<void*, size_t> Alloc(size_t size) const {
-			LastElement += size;
-			return std::make_pair((void*)(Allocated + LastElement - size), size);
-		}
+
 
 		void Free(refTemp* Address) {
 			FreeQueue.push_back(Address->getLocationAndSize());
@@ -62,11 +56,19 @@ namespace Alloc {
 
 		template<typename U>
 		friend class ref;
+		friend class refTemp;
 	protected:
 		char* Allocated = 0;
 		size_t mutable LastElement = 0;
 		extstd::List<refTemp*> References;
 		extstd::List<std::pair<void*, size_t>> FreeQueue;
+#ifdef _HAS_CXX17
+		[[nodiscard]]
+#endif
+		std::pair<void*, size_t> Alloc(size_t size) const {
+			LastElement += size;
+			return std::make_pair((void*)(Allocated + LastElement - size), size);
+		}
 	};
 
 	template<typename T>
@@ -76,7 +78,7 @@ namespace Alloc {
 			loc = 0;
 		}
 
-		ref(Allocator& allocator, size_t sizeToAlloc) : loc((T*)allocator.Alloc(sizeToAlloc).first), AllocatedSize(sizeToAlloc) {
+		ref(Allocator& allocator, size_t sizeToAlloc = 1) : loc((T*)allocator.Alloc(sizeToAlloc * sizeof(T)).first), AllocatedSize(sizeToAlloc * sizeof(T)) {
 			allocator.References.push_back(this);
 		}
 		
