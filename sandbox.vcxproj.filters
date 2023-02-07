@@ -16,6 +16,9 @@
     <Filter Include="GLAD">
       <UniqueIdentifier>{01dbed84-f2d2-4119-88a4-a11c7fab5c00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{cc3e7090-4686-4fd8-a93b-1db5aaafb839}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomString.hpp">
@@ -51,6 +54,9 @@
     <ClInclude Include="EventSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Allocator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -59,5 +65,13 @@
     <ClCompile Include="GLAD\src\glad.c">
       <Filter>GLAD</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="FragmentShader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

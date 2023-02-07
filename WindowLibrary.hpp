@@ -223,10 +223,6 @@ namespace Win {
         bool Show(int nCmdShow = 1){ return ShowWindow(hwnd, nCmdShow); }
         bool Update(){ return UpdateWindow(hwnd); }
 
-        inline const HWND& GetHWND() {
-            return hwnd;
-        }
-
         friend LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #pragma region AddingCallbacks
@@ -338,6 +334,7 @@ namespace Win {
 
         friend LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
         friend inline int MessageLoop();
+        friend inline int UpdateMessageLoop();
     protected:
 #pragma region PrivateMembers
         WNDCLASSEX wc;
@@ -402,18 +399,47 @@ namespace Win {
         }
 
 
+       //inline int MessageLoop() {
+       //    MSG Msg;
+       //    while (!WindowList.empty()) {
+       //        if (PeekMessage(&Msg, 0, 0, 0, PM_REMOVE)) {
+       //            TranslateMessage(&Msg);
+       //            DispatchMessage(&Msg);
+       //        }
+       //        for (Window* w : WindowList) {
+       //            for (std::function<void(Window&)>& foo : w->UpdateCallbacks) {
+       //                foo(*w);
+       //            }
+       //        }
+       //    }
+       //    return Msg.wParam;
+       //}
+
         inline int MessageLoop() {
             MSG Msg;
-            while (!WindowList.empty()) {
-                if (PeekMessage(&Msg, 0, 0, 0, PM_REMOVE)) {
-                    TranslateMessage(&Msg);
-                    DispatchMessage(&Msg);
-                }
-                for (Window* w : WindowList) {
-                    for (std::function<void(Window&)>& foo : w->UpdateCallbacks) {
-                        foo(*w);
+            while (GetMessage(&Msg, 0, 0, 0)) {
+               
+                TranslateMessage(&Msg);
+                DispatchMessage(&Msg);
+                
+                
+            }
+            return Msg.wParam;
+        }
+
+        inline int UpdateMessageLoop() {
+            MSG Msg;
+            while (true) {
+                for (Win::Window* w : WindowList) {
+                    for (auto& a : w->UpdateCallbacks) {
+                        a(*w);
                     }
                 }
+                PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE);
+                TranslateMessage(&Msg);
+                DispatchMessage(&Msg);
+
+
             }
             return Msg.wParam;
         }

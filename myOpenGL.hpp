@@ -6,7 +6,8 @@
 #include <mymath.hpp>
 #include <ImageLibrary.hpp>
 #include <WindowLibrary.hpp>
-
+#include <fstream>
+#include <sstream>
 #pragma comment(lib, "opengl32.lib")
 
 namespace myGL {
@@ -78,6 +79,15 @@ namespace myGL {
 			glCompileShader(shaderID);
 		}
 		
+		Shader(const std::ifstream& shaderFile, ShaderType type) {
+			shaderID = glCreateShader((GLenum)type);
+			std::stringstream sstream;
+			sstream << shaderFile.rdbuf();
+			std::string st = sstream.str();
+			const char* shaderData = st.c_str();
+			glShaderSource(shaderID, 1, &shaderData, 0);
+			glCompileShader(shaderID);
+		}
 
 		inline unsigned int GetID() const {
 			return shaderID;
@@ -195,11 +205,22 @@ namespace myGL {
 
 	class Mesh {
 	public:
+		Mesh(const Triangle* triangles, size_t faceNum) {
+			faces = (Triangle*)malloc(faceNum * sizeof(Triangle));
+			std::copy(triangles, triangles + faceNum, faces);
 
+			glGenBuffers(1, &VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+		}
+
+		~Mesh() {
+			free(faces);
+		}
 	private:
 		unsigned int VAO, VBO, EBO;
 
-		Vertex* vertices = 0;
+		Triangle* faces = 0;
 		uint32_t* indices = 0;
 		Texture* textures = 0;
 		size_t numTextures = 0;
