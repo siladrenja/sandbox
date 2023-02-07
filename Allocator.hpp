@@ -24,7 +24,9 @@ namespace Alloc {
 			Allocated = (char*)malloc(Size);
 		}
 
-
+		~Allocator() {
+			free(Allocated);
+		}
 
 		void Free(refTemp* Address) {
 			FreeQueue.push_back(Address->getLocationAndSize());
@@ -134,8 +136,9 @@ namespace Alloc {
 			return *loc;
 		}
 
-		operator T* () {
-			return loc;
+		template<typename M>
+		operator M* () {
+			return (M*)loc;
 		}
 
 	protected:
